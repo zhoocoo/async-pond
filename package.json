@@ -14,7 +14,7 @@
   ],
   "author": "zhaocongcong <zhoocoo@126.com>",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts"
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,10 @@
   },
   "homepage": "https://github.com/zhoocoo/async-control#readme",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-typescript": "^8.3.0",
     "rollup": "^2.60.1",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-typescript": "^1.0.1",
     "tslib": "^2.3.1",
     "typescript": "^4.5.2"
   }
