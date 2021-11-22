@@ -1,0 +1,36 @@
+{
+  "name": "async-control",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "lib": "lib"
+  },
+  "main": "dist/async-control.umd.js",
+  "module": "dist/async-control.es5.js",
+  "typings": "dist/types/async-control.d.ts",
+  "browser": "dist/async-control.js",
+  "files": [
+    "dist"
+  ],
+  "author": "zhaocongcong <zhoocoo@126.com>",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhoocoo/async-control.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhoocoo/async-control/issues"
+  },
+  "homepage": "https://github.com/zhoocoo/async-control#readme",
+  "devDependencies": {
+    "rollup": "^2.60.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.2"
+  }
+}
