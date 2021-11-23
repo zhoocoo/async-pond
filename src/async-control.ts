@@ -1,7 +1,10 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
 // ...
-import { IPoolControlers } from './interface'
+interface IPoolControlers {
+  iteratorFn: Function
+  param: any
+}
 export class AsyncPoolPro {
   private poolLimit = 3
   private promisePool = [] as unknown as Promise<any>[]
