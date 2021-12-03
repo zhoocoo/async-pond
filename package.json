@@ -14,7 +14,8 @@
   ],
   "author": "zhaocongcong <zhoocoo@126.com>",
   "scripts": {
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts"
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
