@@ -15,7 +15,7 @@
   "author": "zhaocongcong <zhoocoo@126.com>",
   "scripts": {
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
-    "test": "mocha"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,11 +27,18 @@
   },
   "homepage": "https://github.com/zhoocoo/async-control#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
-    "mocha": "^9.1.3",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.11",
+    "babel-jest": "^27.4.2",
+    "jest": "^27.4.3",
     "rollup": "^2.60.1",
+    "ts-jest": "^27.1.0",
+    "ts-node": "^10.4.0",
     "tslib": "^2.3.1",
     "typescript": "^4.5.2"
   }

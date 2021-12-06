@@ -15,5 +15,8 @@
     "typeRoots": ["node_modules/@types"],
     "importHelpers": true
   },
+  "paths": {
+    "@App/*": ["src/baseTs/*"]
+  },
   "include": ["src"]
 }
