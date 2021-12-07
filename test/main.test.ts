@@ -2,7 +2,7 @@
  * @Author: zhaocongcong
  * @LastEditors: zhaocongcong
  * @Date: 2021-12-06 16:14:49
- * @LastEditTime: 2021-12-06 16:57:28
+ * @LastEditTime: 2021-12-07 21:17:06
  * @Description:
  */
 
@@ -33,20 +33,38 @@ describe("异步控制", function () {
     });
   });
 
-  describe("发起2-3个异步", function () {
+  describe("小于或等于并发限制数的异步控制", function () {
     test("发起2个异步", function () {
-      const asyncControl = new AsyncControl();
+      const asyncControl = new AsyncControl(3);
       return asyncControl.push([2000, 1000], timeoutResolve).then((res) => {
         expect(res).toEqual([2000, 1000]);
       });
     });
-    test("发起3个异步", function () {
-      const asyncControl = new AsyncControl();
+    test("发起与并发上限相同数量的异步", function () {
+      const asyncControl = new AsyncControl(3);
       return asyncControl
-        .push([2000, 1000, 3000], timeoutResolve)
+        .push([100, 900, 200, 300, 1000, 500, 700], timeoutResolve)
         .then((res) => {
-          console.log(res);
-          expect(res).toEqual([2000, 1000, 3000]);
+          expect(res).toEqual([100, 900, 200, 300, 1000, 500, 700]);
+        });
+    });
+  });
+
+  describe("大于并发限制数的异步控制", function () {
+    test("发起刚好超出并发限制1个的异步", function () {
+      const asyncControl = new AsyncControl(3);
+      return asyncControl
+        .push([100, 1500, 500, 1000], timeoutResolve)
+        .then((res) => {
+          expect(res).toEqual([100, 1500, 500, 1000]);
+        });
+    });
+    test("发起并发限制2倍数量的异步", function () {
+      const asyncControl = new AsyncControl(3);
+      return asyncControl
+        .push([100, 1500, 500, 1000, 300, 1100], timeoutResolve)
+        .then((res) => {
+          expect(res).toEqual([100, 1500, 500, 1000, 300, 1100]);
         });
     });
   });

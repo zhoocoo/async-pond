@@ -7,11 +7,19 @@ interface IPoolControlers {
   flag: symbol;
 }
 
+interface IOptions {
+  isReTry?: boolean;
+  retryNum?: number;
+  afterInitSingleAsync?: (runAsyncNum: number) => any;
+}
+
 interface IPromiseGroups {
   length: number;
   finishNum: number;
-  pendingPromises: [Promise<any>];
+  resolve?: Function;
+  pendingPromises: Promise<any>[];
 }
+import { isObject } from "./lib";
 export default class AsyncPoolPro {
   public poolLimit = 3;
   private promisePool = [] as Promise<any>[];
@@ -19,16 +27,24 @@ export default class AsyncPoolPro {
   private poolIndex = 0;
   private whileControl = false;
   private promiseGroups = {} as Record<symbol, IPromiseGroups>;
+  private options = {
+    isReTry: false,
+    retryNum: 3,
+  } as IOptions;
 
-  constructor(poolLimit?: number) {
+  constructor(poolLimit?: number, options?: IOptions) {
     this.promisePool = []; // 存储所有的异步任务，且当前异步任务均为pending态
     this.poolControlers = []; //异步请求的参数
     this.poolLimit = poolLimit || 3; //并发限制数量
     this.poolIndex = 0;
     this.whileControl = false;
+
+    if (isObject(options)) {
+      Object.assign(this.options, options);
+    }
   }
 
-  async push(poolParams: any, iteratorFn: Function) {
+  push(poolParams: any, iteratorFn: Function): Promise<any[]> {
     const flag = Symbol();
     const poolControlers = (
       Array.isArray(poolParams) ? poolParams : [poolParams]
@@ -41,19 +57,20 @@ export default class AsyncPoolPro {
     this.promiseGroups[flag] = {
       length: poolControlers.length,
       finishNum: 0,
-      pendingPromises: [new Promise(() => {})],
+      pendingPromises: [],
     };
     this.asyncPool(this.promisePool.length === 0);
-    return Promise.all(this.promiseGroups[flag].pendingPromises);
+    return new Promise((resolve) => {
+      this.promiseGroups[flag].resolve = resolve;
+    });
   }
 
   /**
-   * 延时生成promise异步
+   * 滞后生成promise异步
    */
   generatorPromise(poolControlers = this.poolControlers) {
     const { iteratorFn, param, flag } = poolControlers[this.poolIndex];
     const group = this.promiseGroups[flag];
-    group.finishNum++;
     const p = Promise.resolve()
       .then(() => {
         return iteratorFn(param);
@@ -63,13 +80,22 @@ export default class AsyncPoolPro {
         this.promisePool.splice(finishPromiseIndex, 1);
         this.poolControlers.splice(finishPromiseIndex, 1);
         this.poolIndex--;
+        group.finishNum++;
+        if (group.length === group.finishNum) {
+          // 当前组都结束pending后，执行group
+          group.resolve &&
+            group.resolve(
+              Promise.allSettled(group.pendingPromises).then((res: any[]) => {
+                // delete this.promiseGroups[flag];
+                return res.map((i) => i.value);
+              })
+            );
+        }
       });
-    if (group.length === group.finishNum) {
-      // 去除手动添加的pending态promise，使得push返回的Promise.all能够正确被回调
-      group.pendingPromises.shift();
-    }
     group.pendingPromises.push(p);
     this.promisePool.push(p); // 保存新的异步任务
+    this.options.afterInitSingleAsync &&
+      this.options.afterInitSingleAsync(this.promisePool.length);
     if (this.promisePool.length >= this.poolLimit) {
       return Promise.race(this.promisePool); // 等待较快的任务执行完成
     }
@@ -78,6 +104,8 @@ export default class AsyncPoolPro {
   async asyncPool(isInit: boolean) {
     if (isInit || this.whileControl) {
       this.whileControl = false;
+      const { flag } = this.poolControlers[this.poolIndex];
+      const group = this.promiseGroups[flag];
       while (this.poolIndex < this.poolControlers.length) {
         const racePromise = this.generatorPromise();
         racePromise && (await racePromise);
