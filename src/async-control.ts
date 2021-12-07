@@ -14,7 +14,7 @@ interface IPromiseGroups {
 }
 export default class AsyncPoolPro {
   public poolLimit = 3;
-  private promisePool = [] as unknown as Promise<any>[];
+  private promisePool = [] as Promise<any>[];
   private poolControlers = [] as IPoolControlers[];
   private poolIndex = 0;
   private whileControl = false;
@@ -47,6 +47,9 @@ export default class AsyncPoolPro {
     return Promise.all(this.promiseGroups[flag].pendingPromises);
   }
 
+  /**
+   * 延时生成promise异步
+   */
   generatorPromise(poolControlers = this.poolControlers) {
     const { iteratorFn, param, flag } = poolControlers[this.poolIndex];
     const group = this.promiseGroups[flag];
@@ -62,6 +65,7 @@ export default class AsyncPoolPro {
         this.poolIndex--;
       });
     if (group.length === group.finishNum) {
+      // 去除手动添加的pending态promise，使得push返回的Promise.all能够正确被回调
       group.pendingPromises.shift();
     }
     group.pendingPromises.push(p);
