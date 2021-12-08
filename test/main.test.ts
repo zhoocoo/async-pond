@@ -2,12 +2,13 @@
  * @Author: zhaocongcong
  * @LastEditors: zhaocongcong
  * @Date: 2021-12-06 16:14:49
- * @LastEditTime: 2021-12-08 20:27:24
+ * @LastEditTime: 2021-12-08 20:55:20
  * @Description:
  */
 import AsyncControl from "../src/async-control";
 import {
   timeoutResolve,
+  timeoutRejectWithCatch,
   timeoutRandomStatus,
   getExpectedResult,
   getAllSameMatchResult,
@@ -88,11 +89,19 @@ describe("异步控制", function () {
   });
 
   describe.only("正确响应promise的状态", function () {
-    test("全部都是rejected状态", async function () {
+    // test("全部都是rejected状态", async function () {
+    //   const asyncControl = new AsyncControl(3);
+    //   const params = [300, 150, 200, 400, 100, 700];
+    //   return asyncControl.push(params, timeoutReject).then((res) => {
+    //     expect(getExpectedResult(res)).toEqual(params);
+    //   });
+    // });
+
+    test("全部都是rejected状态，传入的异步函数生成器带有catch函数【catch函数不返回任何值】", async function () {
       const asyncControl = new AsyncControl(3);
-      const params = [300, 150, 200, 400, 100, 700];
-      return asyncControl.push(params, timeoutReject).then((res) => {
-        console.log(res)
+      const params = [300, 150];
+      return asyncControl.push(params, timeoutRejectWithCatch).then((res) => {
+        console.log(res);
         expect(getExpectedResult(res)).toEqual(params);
       });
     });

@@ -2,7 +2,7 @@
  * @Author: zhaocongcong
  * @LastEditors: zhaocongcong
  * @Date: 2021-12-02 17:49:28
- * @LastEditTime: 2021-12-08 20:28:55
+ * @LastEditTime: 2021-12-08 20:57:07
  * @Description: 测试方法
  */
 
@@ -19,8 +19,15 @@ export const timeoutReject = (i: number): Promise<any> =>
       console.log(i);
       reject(i);
     }, i)
-  ).catch((res) => {
-    console.log("outCatch", res);
+  );
+
+export const timeoutRejectWithCatch = (i: number): Promise<any> =>
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
+      reject(i);
+    }, i)
+  ).catch((err) => {
+    console.log("out catch", err);
   });
 
 export const timeoutRandomStatus = (i: number): Promise<number> =>

@@ -74,8 +74,20 @@ export default class AsyncPoolPro {
       .then(() => {
         return iteratorFn(param);
       })
+      .then(
+        (res) => {
+          console.log("inner then", res);
+        },
+        (err) => {
+          console.log("fn inner err", err);
+        }
+      )
+      .catch((err) => {
+        console.log("innner error", err);
+        return Promise.reject(err);
+      })
       .finally(() => {
-        console.log("finally", param);
+        console.log("finally");
         const finishPromiseIndex = this.promisePool.indexOf(p);
         this.promisePool.splice(finishPromiseIndex, 1);
         this.poolControlers.splice(finishPromiseIndex, 1);
@@ -86,10 +98,8 @@ export default class AsyncPoolPro {
           group.resolve &&
             group.resolve(Promise.allSettled(group.pendingPromises));
         }
-      })
-      .catch((err) => {
-        return Promise.reject(err);
       });
+
     group.pendingPromises.push(p);
     this.promisePool.push(p); // 保存新的异步任务
     this.options.afterInitSingleAsync &&
@@ -106,9 +116,9 @@ export default class AsyncPoolPro {
       const group = this.promiseGroups[flag];
       while (this.poolIndex < this.poolControlers.length) {
         const racePromise = this.generatorPromise();
-        if (racePromise) {
-          const [err, res] = await to(racePromise);
-        }
+        // if (racePromise) {
+        //   const [err, res] = await to(racePromise);
+        // }
         this.poolIndex++;
       }
       //while循环结束标识
