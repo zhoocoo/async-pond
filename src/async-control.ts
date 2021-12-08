@@ -10,7 +10,7 @@ interface IPoolControlers {
 interface IOptions {
   isReTry?: boolean;
   retryNum?: number;
-  afterInitSingleAsync?: (runAsyncNum: number) => any;
+  afterInitSingleAsync?: (runingAsyncPool: Promise<any>[]) => any;
 }
 
 interface IPromiseGroups {
@@ -19,7 +19,7 @@ interface IPromiseGroups {
   resolve?: Function;
   pendingPromises: Promise<any>[];
 }
-import { isObject } from "./lib";
+import { isObject, to } from "./lib";
 export default class AsyncPoolPro {
   public poolLimit = 3;
   private promisePool = [] as Promise<any>[];
@@ -38,7 +38,6 @@ export default class AsyncPoolPro {
     this.poolLimit = poolLimit || 3; //并发限制数量
     this.poolIndex = 0;
     this.whileControl = false;
-
     if (isObject(options)) {
       Object.assign(this.options, options);
     }
@@ -76,6 +75,7 @@ export default class AsyncPoolPro {
         return iteratorFn(param);
       })
       .finally(() => {
+        console.log("finally", param);
         const finishPromiseIndex = this.promisePool.indexOf(p);
         this.promisePool.splice(finishPromiseIndex, 1);
         this.poolControlers.splice(finishPromiseIndex, 1);
@@ -84,18 +84,16 @@ export default class AsyncPoolPro {
         if (group.length === group.finishNum) {
           // 当前组都结束pending后，执行group
           group.resolve &&
-            group.resolve(
-              Promise.allSettled(group.pendingPromises).then((res: any[]) => {
-                // delete this.promiseGroups[flag];
-                return res.map((i) => i.value);
-              })
-            );
+            group.resolve(Promise.allSettled(group.pendingPromises));
         }
+      })
+      .catch((err) => {
+        return Promise.reject(err);
       });
     group.pendingPromises.push(p);
     this.promisePool.push(p); // 保存新的异步任务
     this.options.afterInitSingleAsync &&
-      this.options.afterInitSingleAsync(this.promisePool.length);
+      this.options.afterInitSingleAsync(this.promisePool);
     if (this.promisePool.length >= this.poolLimit) {
       return Promise.race(this.promisePool); // 等待较快的任务执行完成
     }
@@ -108,7 +106,9 @@ export default class AsyncPoolPro {
       const group = this.promiseGroups[flag];
       while (this.poolIndex < this.poolControlers.length) {
         const racePromise = this.generatorPromise();
-        racePromise && (await racePromise);
+        if (racePromise) {
+          const [err, res] = await to(racePromise);
+        }
         this.poolIndex++;
       }
       //while循环结束标识
