@@ -2,7 +2,7 @@
  * @Author: zhaocongcong
  * @LastEditors: zhaocongcong
  * @Date: 2021-12-02 17:49:28
- * @LastEditTime: 2021-12-08 20:57:07
+ * @LastEditTime: 2021-12-09 15:08:35
  * @Description: 测试方法
  */
 
@@ -16,7 +16,6 @@ export const timeoutResolve = (i: number): Promise<number> =>
 export const timeoutReject = (i: number): Promise<any> =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
-      console.log(i);
       reject(i);
     }, i)
   );
@@ -26,9 +25,7 @@ export const timeoutRejectWithCatch = (i: number): Promise<any> =>
     setTimeout(() => {
       reject(i);
     }, i)
-  ).catch((err) => {
-    console.log("out catch", err);
-  });
+  ).catch((err) => {});
 
 export const timeoutRandomStatus = (i: number): Promise<number> =>
   new Promise((resolve, reject) =>
@@ -43,7 +40,7 @@ export const timeoutRandomStatus = (i: number): Promise<number> =>
 
 type MatchResultStatus = "rejected" | "fulfilled";
 export const getAllSameMatchResult = (
-  params: number[],
+  params: (number | undefined)[],
   status: MatchResultStatus
 ) => {
   return params.map((i) => ({
