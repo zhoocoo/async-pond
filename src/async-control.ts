@@ -72,11 +72,7 @@ export default class AsyncPoolPro {
     const group = this.promiseGroups[flag];
     const p = Promise.resolve()
       .then(() => {
-        return iteratorFn(param)
-      })
-      .catch((err) => {
-        console.log(err);
-        return Promise.reject(err);
+        return iteratorFn(param);
       })
       .finally(() => {
         const finishPromiseIndex = this.promisePool.indexOf(p);
@@ -90,7 +86,6 @@ export default class AsyncPoolPro {
             group.resolve(Promise.allSettled(group.pendingPromises));
         }
       });
-
     group.pendingPromises.push(p);
     this.promisePool.push(p); // 保存新的异步任务
     this.options.afterInitSingleAsync &&
@@ -108,7 +103,7 @@ export default class AsyncPoolPro {
       while (this.poolIndex < this.poolControlers.length) {
         const racePromise = this.generatorPromise();
         if (racePromise) {
-          const [err, res] = await to(racePromise);
+          await to(racePromise);
         }
         this.poolIndex++;
       }
