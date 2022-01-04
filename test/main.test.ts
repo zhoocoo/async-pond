@@ -54,6 +54,7 @@ describe("小于或等于并发限制数的异步控制", function () {
     const params = [100, 900, 200, 300, 150, 500, 400];
     const asyncControl = new AsyncControl(params.length);
     return asyncControl.push(params, timeoutRandomStatus).then((res) => {
+      console.log(res);
       expect(getExpectedResult(res)).toEqual(params);
     });
   });
@@ -175,7 +176,7 @@ describe("正确响应promise的状态", function () {
   });
 });
 
-describe.only("动态push更多的异步", function () {
+describe("动态push更多的异步", function () {
   beforeAll(() => {
     jest.useFakeTimers();
   });
@@ -205,7 +206,7 @@ describe.only("动态push更多的异步", function () {
     });
   });
 
-  describe.only("上一次push还未结束时push", function () {
+  describe("上一次push还未结束时push", function () {
     test("小于异步阙值的push", async function () {
       const asyncControl = new AsyncControl(3);
       const params = [1000, 5000];
