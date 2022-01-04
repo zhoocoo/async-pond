@@ -1,12 +1,5 @@
-/*
- * @Author: zhaocongcong
- * @LastEditors: zhaocongcong
- * @Date: 2021-12-06 16:14:49
- * @LastEditTime: 2022-01-04 15:56:52
- * @Description:
- */
 import { on } from "events";
-import AsyncControl from "../src/async-control";
+import AsyncControl from "../src/async-pond";
 import {
   timeoutResolve,
   timeoutRejectWithCatch,

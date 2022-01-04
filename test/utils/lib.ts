@@ -1,11 +1,3 @@
-/*
- * @Author: zhaocongcong
- * @LastEditors: zhaocongcong
- * @Date: 2021-12-02 17:49:28
- * @LastEditTime: 2022-01-04 14:46:48
- * @Description: 测试方法
- */
-
 export const timeoutResolve = (i: number): Promise<any> => {
   const testPromise = new Promise((resolve) =>
     setTimeout(() => {

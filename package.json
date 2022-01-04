@@ -1,14 +1,14 @@
 {
-  "name": "async-control",
+  "name": "async-pond",
   "version": "1.0.0",
   "description": "",
   "directories": {
     "lib": "lib"
   },
-  "main": "dist/async-control.umd.js",
-  "module": "dist/async-control.es5.js",
-  "typings": "dist/types/async-control.d.ts",
-  "browser": "dist/async-control.js",
+  "main": "dist/async-pond.umd.js",
+  "module": "dist/async-pond.es5.js",
+  "typings": "dist/types/async-pond.d.ts",
+  "browser": "dist/async-pond.js",
   "files": [
     "dist"
   ],
@@ -19,13 +19,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zhoocoo/async-control.git"
+    "url": "git+https://github.com/zhoocoo/async-pond.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zhoocoo/async-control/issues"
+    "url": "https://github.com/zhoocoo/async-pond/issues"
   },
-  "homepage": "https://github.com/zhoocoo/async-control#readme",
+  "homepage": "https://github.com/zhoocoo/async-pond#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",

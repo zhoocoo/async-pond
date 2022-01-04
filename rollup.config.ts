@@ -3,7 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import pkg from "./package.json";
 
-const libraryName = "async-control";
+const libraryName = pkg.name;
 
 export default {
   input: `src/${libraryName}.ts`, // 打包入口external: [],
