@@ -2,7 +2,7 @@
  * @Author: zhaocongcong
  * @LastEditors: zhaocongcong
  * @Date: 2021-12-02 17:49:28
- * @LastEditTime: 2021-12-10 16:47:17
+ * @LastEditTime: 2022-01-04 14:46:48
  * @Description: 测试方法
  */
 
@@ -32,6 +32,18 @@ export const timeoutRejectWithCatch = (i: number): Promise<any> => {
       reject(i);
     }, i)
   ).catch((err) => {});
+  jest.advanceTimersByTime(i);
+  return testPomise;
+};
+
+export const timeoutRejectWithCatchReturn = (i: number): Promise<any> => {
+  const testPomise = new Promise((resolve, reject) =>
+    setTimeout(() => {
+      reject(i);
+    }, i)
+  ).catch((err) => {
+    return i;
+  });
   jest.advanceTimersByTime(i);
   return testPomise;
 };
