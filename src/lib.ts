@@ -1,11 +1,3 @@
-/*
- * @Author: zhaocongcong
- * @LastEditors: zhaocongcong
- * @Date: 2021-12-07 11:13:08
- * @LastEditTime: 2021-12-08 20:22:28
- * @Description: 工具
- */
-
 export function isObject(obj: any) {
   return Object.prototype.toString.call(obj) === "[object Object]";
 }
