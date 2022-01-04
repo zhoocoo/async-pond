@@ -1,10 +1,3 @@
-<!--
- * @Author: zhaocongcong
- * @LastEditors: zhaocongcong
- * @Date: 2021-11-22 20:43:44
- * @LastEditTime: 2021-12-08 11:09:42
- * @Description: 
--->
 ## AsyncControl
 
 一个使用promise来解决并发异步的方案
