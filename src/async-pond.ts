@@ -1,6 +1,3 @@
-// Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
-// import "core-js/fn/array.find"
-// ...
 interface IPoolControlers {
   iteratorFn: Function;
   param: any;
@@ -65,7 +62,8 @@ export default class AsyncPoolPro {
   }
 
   /**
-   * 滞后生成promise异步
+   * 延迟生成Promise异步
+   * @param poolControlers 异步请求的参数
    */
   generatorPromise(poolControlers = this.poolControlers) {
     const { iteratorFn, param, flag } = poolControlers[this.poolIndex];
@@ -95,6 +93,10 @@ export default class AsyncPoolPro {
     }
   }
 
+  /**
+   * 并发控制逻辑
+   * @param {boolean} isInit 是否初始化控制？
+   */
   async asyncPool(isInit: boolean) {
     if (isInit || this.whileControl) {
       this.whileControl = false;
