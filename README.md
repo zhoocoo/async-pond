@@ -1,6 +1,6 @@
 ## AsyncPond
 
-一个使用 promise 来解决并发异步的方案
+一个使用 promise 来解决并发异步的方案，无任何依赖
 
 ```js
 // 一个异步池子，池子里的异步数量控制在3个
@@ -16,6 +16,10 @@ const asyncGenerator = (i) =>
 // 往异步池子里push参数和异步生成器
 // 可多次push
 asyncPond.push(params, asyncGenerator).then(console.log);
+
+// 异步池子里，仅有3个或以下的正在执行的异步任务
+
+// 当所有异步任务完成后，触发push
 // 以Promise.allSetteled的格式，返回每一次push进去的异步结果；
 // [
 //   { status: "fulfilled", value: 1000 },
@@ -35,12 +39,3 @@ With npm do:
 ```javascript
 npm install async-pond
 ```
-
-
-
-
-### 功能
-
-- [x] 并发的基础控制
-- [x] 并发持续发生时，向并发池子中继续添加并发请求
-- [x] 每次 push 添加新异步集合时，正确监听回调
