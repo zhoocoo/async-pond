@@ -13,10 +13,11 @@
     "dist"
   ],
   "keywords": [
+    "请求并发",
+    "Promise并发",
     "async",
     "Promise",
     "parallel",
-    "并发",
     "前端并发控制"
   ],
   "author": "zhaocongcong <zhoocoo@126.com>",
