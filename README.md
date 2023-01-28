@@ -1,4 +1,3 @@
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=zhoocoo&show_icons=true)](https://github.com/anuraghazra/github-readme-stats)
 ## AsyncPond
 
 一个使用 promise 来解决并发异步控制的方案，无任何依赖
