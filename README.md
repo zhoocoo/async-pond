@@ -1,3 +1,4 @@
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=zhoocoo&show_icons=true)](https://github.com/anuraghazra/github-readme-stats)
 ## AsyncPond
 
 一个使用 promise 来解决并发异步控制的方案，无任何依赖
@@ -80,13 +81,13 @@ promise.then((result) => {
 
 ```json
 [
-  { status: "fulfilled", value: 1 },
-  { status: "fulfilled", value: 2 },
-  { status: "fulfilled", value: 3 },
-  { status: "fulfilled", value: 4 },
-  { status: "fulfilled", value: 5 },
-  { status: "fulfilled", value: 6 },
-  { status: "fulfilled", value: 7 },
+  { "status": "fulfilled", "value": 1 },
+  { "status": "fulfilled", "value": 2 },
+  { "status": "fulfilled", "value": 3 },
+  { "status": "fulfilled", "value": 4 },
+  { "status": "fulfilled", "value": 5 },
+  { "status": "fulfilled", "value": 6 },
+  { "status": "fulfilled", "value": 7 },
 ];
 ```
 
